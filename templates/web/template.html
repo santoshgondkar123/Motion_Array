@@ -1,0 +1,764 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <title>Motion Templates Library | MotionCraft</title>
+    <!-- Google Fonts & Icons -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <!-- Django Static Files -->
+    <link rel="stylesheet" href="{% static 'web/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/footer.css' %}">
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            /* Same professional dark background theme */
+            background: linear-gradient(135deg, #0f172a 0%, #1e293b 50%, #0f172a 100%);
+            color: #e2e8f0;
+            min-height: 100vh;
+        }
+
+        /* Layout */
+        .templates-container {
+            max-width: 1440px;
+            margin: 0 auto;
+            padding: 32px 24px 64px;
+        }
+
+        /* Header & filters */
+        .page-header {
+            margin-bottom: 32px;
+        }
+        .page-header h1 {
+            font-size: 2rem;
+            font-weight: 700;
+            background: linear-gradient(135deg, #f7931e, #ff6b35);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+        }
+        .filter-bar {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: space-between;
+            align-items: center;
+            gap: 20px;
+            margin: 24px 0 32px;
+            background: rgba(30, 43, 60, 0.85);
+            backdrop-filter: blur(10px);
+            padding: 12px 24px;
+            border-radius: 60px;
+            box-shadow: 0 2px 8px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .filter-tabs {
+            display: flex;
+            gap: 12px;
+            flex-wrap: wrap;
+        }
+        .filter-chip {
+            padding: 8px 20px;
+            border-radius: 40px;
+            background: rgba(255,255,255,0.1);
+            font-weight: 500;
+            font-size: 0.85rem;
+            cursor: pointer;
+            transition: all 0.2s;
+            color: #e2e8f0;
+        }
+        .filter-chip.active, .filter-chip:hover {
+            background: linear-gradient(135deg, #f7931e, #ff6b35);
+            color: white;
+            transform: translateY(-2px);
+        }
+        .search-box {
+            display: flex;
+            align-items: center;
+            background: rgba(255,255,255,0.1);
+            border-radius: 40px;
+            padding: 6px 16px;
+            gap: 8px;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .search-box input {
+            border: none;
+            background: transparent;
+            padding: 8px 0;
+            width: 220px;
+            outline: none;
+            color: white;
+        }
+        .search-box input::placeholder {
+            color: rgba(255,255,255,0.6);
+        }
+        .search-box i {
+            color: rgba(255,255,255,0.7);
+        }
+        /* Stats row */
+        .stats-row {
+            display: flex;
+            justify-content: space-between;
+            align-items: baseline;
+            margin-bottom: 28px;
+            flex-wrap: wrap;
+            gap: 12px;
+        }
+        .result-count {
+            font-weight: 500;
+            color: #cbd5e1;
+            background: rgba(30, 43, 60, 0.7);
+            padding: 6px 16px;
+            border-radius: 30px;
+            backdrop-filter: blur(5px);
+        }
+        .sort-select {
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 16px;
+            border-radius: 32px;
+            background: rgba(30, 43, 60, 0.7);
+            color: white;
+            cursor: pointer;
+            backdrop-filter: blur(5px);
+        }
+        .sort-select option {
+            background: #1e2b3c;
+            color: white;
+        }
+        /* Templates Grid - 1000+ style */
+        .templates-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+            gap: 28px;
+            margin-bottom: 48px;
+        }
+        .template-card {
+            background: rgba(30, 43, 60, 0.85);
+            backdrop-filter: blur(10px);
+            border-radius: 24px;
+            overflow: hidden;
+            transition: all 0.25s ease;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.2);
+            border: 1px solid rgba(255,255,255,0.15);
+        }
+        .template-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 20px 30px -12px rgba(0,0,0,0.3);
+            border-color: rgba(247, 147, 30, 0.5);
+        }
+        .thumbnail {
+            position: relative;
+            background: #0f172a;
+            height: 190px;
+            overflow: hidden;
+        }
+        .thumbnail img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            transition: transform 0.4s;
+        }
+        .template-card:hover .thumbnail img {
+            transform: scale(1.02);
+        }
+        .thumbnail-badge {
+            position: absolute;
+            top: 12px;
+            left: 12px;
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            padding: 4px 10px;
+            border-radius: 30px;
+            font-size: 0.7rem;
+            color: white;
+            font-weight: 500;
+        }
+        .action-buttons {
+            position: absolute;
+            bottom: 12px;
+            right: 12px;
+            display: flex;
+            gap: 8px;
+            z-index: 5;
+        }
+        .icon-btn {
+            background: rgba(0,0,0,0.7);
+            backdrop-filter: blur(4px);
+            border: none;
+            width: 34px;
+            height: 34px;
+            border-radius: 50%;
+            color: white;
+            cursor: pointer;
+            transition: all 0.2s;
+            font-size: 0.9rem;
+        }
+        .icon-btn:hover {
+            background: linear-gradient(135deg, #f7931e, #ff6b35);
+            transform: scale(1.05);
+        }
+        .card-content {
+            padding: 18px;
+        }
+        .card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 10px;
+        }
+        .category {
+            font-size: 0.7rem;
+            text-transform: uppercase;
+            color: #f7931e;
+            font-weight: 700;
+        }
+        .price {
+            font-weight: 800;
+            font-size: 1.2rem;
+            color: #f7931e;
+        }
+        .template-title {
+            font-weight: 700;
+            font-size: 1rem;
+            margin-bottom: 12px;
+            color: white;
+        }
+        .meta {
+            display: flex;
+            gap: 16px;
+            font-size: 0.75rem;
+            color: #94a3b8;
+            margin: 12px 0;
+        }
+        .rating i {
+            color: #fbbf24;
+        }
+        .download-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #f7931e, #ff6b35);
+            color: white;
+            border: none;
+            padding: 10px;
+            border-radius: 40px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: 0.2s;
+            margin-top: 12px;
+        }
+        .download-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 5px 15px rgba(247,147,30,0.4);
+        }
+        /* Pagination */
+        .pagination {
+            display: flex;
+            justify-content: center;
+            gap: 12px;
+            margin-top: 20px;
+        }
+        .page-item {
+            width: 42px;
+            height: 42px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            border-radius: 50%;
+            background: rgba(30, 43, 60, 0.7);
+            backdrop-filter: blur(5px);
+            border: 1px solid rgba(255,255,255,0.2);
+            cursor: pointer;
+            font-weight: 500;
+            color: white;
+            transition: all 0.3s ease;
+        }
+        .page-item.active-page {
+            background: linear-gradient(135deg, #f7931e, #ff6b35);
+            color: white;
+            border-color: transparent;
+        }
+        .page-item:hover:not(.active-page) {
+            background: rgba(247, 147, 30, 0.3);
+            transform: translateY(-2px);
+        }
+        /* Modal for payment/download */
+        .modal-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0,0,0,0.85);
+            backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 1000;
+            visibility: hidden;
+            opacity: 0;
+            transition: 0.2s;
+        }
+        .modal-overlay.active {
+            visibility: visible;
+            opacity: 1;
+        }
+        .payment-modal {
+            background: rgba(30, 43, 60, 0.95);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            max-width: 480px;
+            width: 90%;
+            padding: 32px;
+            text-align: center;
+            border: 1px solid rgba(255,255,255,0.2);
+        }
+        .payment-modal h3 {
+            margin-bottom: 16px;
+            color: white;
+        }
+        .payment-modal p {
+            color: #cbd5e1;
+        }
+        .payment-options {
+            display: flex;
+            flex-direction: column;
+            gap: 12px;
+            margin: 24px 0;
+        }
+        .pay-method {
+            display: flex;
+            align-items: center;
+            gap: 14px;
+            padding: 12px 16px;
+            border: 1px solid rgba(255,255,255,0.2);
+            border-radius: 60px;
+            cursor: pointer;
+            transition: 0.2s;
+            color: white;
+            background: rgba(255,255,255,0.05);
+        }
+        .pay-method:hover {
+            border-color: #f7931e;
+            background: rgba(247, 147, 30, 0.1);
+            transform: translateX(5px);
+        }
+        .close-modal {
+            margin-top: 20px;
+            background: rgba(255,255,255,0.1);
+            border: 1px solid rgba(255,255,255,0.2);
+            padding: 8px 20px;
+            border-radius: 40px;
+            cursor: pointer;
+            color: white;
+        }
+        .close-modal:hover {
+            background: rgba(247, 147, 30, 0.3);
+        }
+        .success-toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #f7931e, #ff6b35);
+            color: white;
+            padding: 12px 24px;
+            border-radius: 40px;
+            z-index: 1100;
+            display: none;
+            font-weight: 500;
+        }
+        @media (max-width: 700px) {
+            .templates-container { padding: 20px; }
+            .filter-bar { flex-direction: column; align-items: stretch; border-radius: 28px; }
+            .search-box input { width: 100%; }
+        }
+    </style>
+</head>
+<body>
+
+<!-- Navbar -->
+{% include 'web/navbar.html' %}
+
+<div class="templates-container">
+    <!-- Header -->
+    <div class="page-header">
+        <!-- <h1><i class="fas fa-film"></i> Motion Templates Library</h1>
+        <p>Professional templates, motion graphics & stock assets — 1,000+ premium items</p> -->
+    </div>
+    <br>
+    <!-- Filter & Search -->
+    <div class="filter-bar">
+        <div class="filter-tabs" id="filterTabs">
+            <div class="filter-chip active" data-filter="all">All Templates</div>
+            <div class="filter-chip" data-filter="ae">After Effects</div>
+            <div class="filter-chip" data-filter="pr">Premiere Pro</div>
+            <div class="filter-chip" data-filter="mg">Motion Graphics</div>
+            
+        </div>
+        <div class="search-box">
+            <i class="fas fa-search"></i>
+            <input type="text" id="searchInput" placeholder="Search 1000+ templates...">
+        </div>
+    </div>
+    <!-- Stats & Sort -->
+    <div class="stats-row">
+        <div class="result-count" id="resultCount">Showing 1,024 templates</div>
+        <select id="sortSelect" class="sort-select">
+            <option value="default">Most Relevant</option>
+            <option value="price-low">Price: Low to High</option>
+            <option value="price-high">Price: High to Low</option>
+            <option value="popular">Most Popular</option>
+        </select>
+    </div>
+    <!-- Templates Grid -->
+    <div class="templates-grid" id="templatesGrid"></div>
+    <!-- Pagination -->
+    <div class="pagination" id="pagination"></div>
+</div>
+
+<!-- Payment Modal (Download with pay option) -->
+<div id="paymentModal" class="modal-overlay">
+    <div class="payment-modal">
+        <i class="fas fa-lock" style="font-size: 2rem; color: #f7931e;"></i>
+        <h3>Unlock & Download Template</h3>
+        <p id="modalTemplateName">Template Name</p>
+        <div class="payment-options">
+
+    <div class="pay-method" data-plan="monthly">
+        👑 Monthly Plan - ₹19 / Month
+    </div>
+
+    <div class="pay-method" data-plan="yearly">
+        🔥 Yearly Plan - ₹149 / Year
+        <small style="margin-left:auto;color:#f7931e;">
+            Best Value
+        </small>
+    </div>
+
+    <div class="pay-method" data-plan="lifetime">
+        🚀 Lifetime Access - ₹299
+    </div>
+
+</div>
+        <button class="close-modal" id="closeModalBtn">Cancel</button>
+    </div>
+</div>
+<div id="successToast" class="success-toast">✅ Download started! Thank you.</div>
+
+<!-- Footer -->
+{% include 'web/footer.html' %}
+
+<script>
+    // ------------------------------
+    // GENERATE 1000+ TEMPLATES (dynamic mock data)
+    // Conversion Rate: 1 USD = 85 INR
+    // ------------------------------
+    const categoriesList = ['ae', 'pr', 'mg', 'stock'];
+    const categoryNames = { ae: 'After Effects', pr: 'Premiere Pro', mg: 'Motion Graphics', stock: 'Stock Video' };
+    const titles = [
+        "Glitch Logo Reveal", "Modern Slideshow", "Kinetic Typography", "HUD Sci-Fi", "Corporate Opener",
+        "Cinematic Trailer", "Instagram Stories", "Broadcast Package", "Animated Lower Thirds", "Dynamic Transitions",
+        "3D Abstract Loop", "Aerial Drone Shot", "Urban Timelapse", "Hand drawn Titles", "Vintage Film Look",
+        "Fashion Promo", "Sports Intro", "Tech Interface", "Travel Slideshow", "YouTube Intro Pack"
+    ];
+    const badges = ["🔥 Trending", "⭐ Best Seller", "🆕 New", "🏆 Editor's Pick", "📈 Popular"];
+
+    let allTemplates = [];
+    
+    // Price conversion function: USD to INR (1 USD = 85 INR)
+    function convertToINR(usdPrice) {
+        return Math.round(usdPrice * 85);
+    }
+    
+    // generate 120 base templates
+   for (let i = 1; i <= 120; i++) {
+
+    const cat = categoriesList[i % categoriesList.length];
+    const titleIndex = i % titles.length;
+
+    let title = titles[titleIndex] +
+        (Math.floor(i / 10) > 0 ? ` v${Math.floor(i / 5)}` : '');
+
+    if (i < 100)
+        title = titles[titleIndex] + ` ${i}`;
+
+    const priceINR = [19, 29, 39, 49, 79, 99][i % 6];
+
+    const rating = (3.5 + (i % 15) / 10).toFixed(1);
+    const downloads = Math.floor(Math.random() * 8000) + 200;
+
+    allTemplates.push({
+        id: i,
+        title: title,
+        category: cat,
+        categoryLabel: categoryNames[cat],
+        priceINR: priceINR,
+        rating: parseFloat(rating),
+        downloads: downloads,
+        badge: badges[i % badges.length],
+        image: `https://picsum.photos/id/${(i % 100) + 10}/400/240`
+    });
+
+}
+    // push more to reach 1000+ items
+   for (let i = 121; i <= 1024; i++) {
+
+    const cat = categoriesList[i % categoriesList.length];
+
+    const priceINR = [19, 29, 49][i % 3];
+
+    allTemplates.push({
+        id: i,
+        title: `Pro Motion Pack ${i}`,
+        category: cat,
+        categoryLabel: categoryNames[cat],
+        priceINR: priceINR,
+        rating: 4.7,
+        downloads: Math.floor(Math.random() * 5000),
+        badge: "⭐ Premium",
+        image: `https://picsum.photos/id/${(i % 80) + 20}/400/240`
+    });
+
+}
+
+    let currentFilter = "all";
+    let currentSearch = "";
+    let currentSort = "default";
+    let currentPage = 1;
+    const itemsPerPage = 12;
+    let pendingDownloadTemplate = null;
+
+    function filterAndSortTemplates() {
+        let filtered = [...allTemplates];
+        if (currentFilter !== "all") {
+            filtered = filtered.filter(t => t.category === currentFilter);
+        }
+        if (currentSearch.trim() !== "") {
+            const q = currentSearch.toLowerCase();
+            filtered = filtered.filter(t => t.title.toLowerCase().includes(q) || t.categoryLabel.toLowerCase().includes(q));
+        }
+        if (currentSort === "price-low") filtered.sort((a,b) => a.priceINR - b.priceINR);
+        else if (currentSort === "price-high") filtered.sort((a,b) => b.priceINR - a.priceINR);
+        else if (currentSort === "popular") filtered.sort((a,b) => b.downloads - a.downloads);
+        else filtered.sort((a,b) => a.id - b.id);
+        return filtered;
+    }
+
+    function formatINR(price) {
+        return new Intl.NumberFormat('en-IN', {
+            style: 'currency',
+            currency: 'INR',
+            minimumFractionDigits: 0,
+            maximumFractionDigits: 0
+        }).format(price);
+    }
+
+    function renderGrid() {
+        const filteredAll = filterAndSortTemplates();
+        const total = filteredAll.length;
+        const totalPages = Math.ceil(total / itemsPerPage);
+        const start = (currentPage - 1) * itemsPerPage;
+        const pageItems = filteredAll.slice(start, start + itemsPerPage);
+        const grid = document.getElementById("templatesGrid");
+        if (!grid) return;
+        if (pageItems.length === 0) {
+            grid.innerHTML = `<div style="grid-column:1/-1; text-align:center; padding:60px; color:white;">✨ No templates found. Try adjusting filters.</div>`;
+            document.getElementById("resultCount").innerText = `Showing 0 results`;
+            return;
+        }
+        let html = "";
+        pageItems.forEach(t => {
+            html += `
+                <div class="template-card" data-id="${t.id}">
+                    <div class="thumbnail">
+                        <img src="${t.image}" alt="${t.title}" loading="lazy">
+                        <div class="thumbnail-badge">${t.badge}</div>
+                        <div class="action-buttons">
+                            <button class="icon-btn share-btn" data-id="${t.id}" title="Share"><i class="fas fa-share-alt"></i></button>
+                            <button class="icon-btn save-btn" data-id="${t.id}" title="Save to collection"><i class="fas fa-heart"></i></button>
+                        </div>
+                    </div>
+                    <div class="card-content">
+                        <div class="card-header">
+                            <span class="category">${t.categoryLabel}</span>
+                            <span class="price">${formatINR(t.priceINR)}</span>
+                        </div>
+                        <div class="template-title">${escapeHtml(t.title)}</div>
+                        <div class="meta">
+                            <span><i class="fas fa-download"></i> ${t.downloads.toLocaleString()}</span>
+                            <span class="rating"><i class="fas fa-star"></i> ${t.rating}</span>
+                        </div>
+                        <button class="download-btn" data-id="${t.id}" data-price="${t.priceINR}" data-title="${escapeHtml(t.title)}">Download Template <i class="fas fa-shopping-cart"></i></button>
+                    </div>
+                </div>
+            `;
+        });
+        grid.innerHTML = html;
+        document.getElementById("resultCount").innerText = `Showing ${pageItems.length} of ${total} premium templates`;
+        renderPagination(totalPages);
+        attachCardEvents();
+    }
+
+    function escapeHtml(str) {
+        return str.replace(/[&<>]/g, function(m) {
+            if (m === '&') return '&amp;';
+            if (m === '<') return '&lt;';
+            if (m === '>') return '&gt;';
+            return m;
+        }).replace(/[\uD800-\uDBFF][\uDC00-\uDFFF]/g, function(c) {
+            return c;
+        });
+    }
+
+    function renderPagination(totalPages) {
+        const paginationDiv = document.getElementById("pagination");
+        if (!paginationDiv) return;
+        if (totalPages <= 1) { paginationDiv.innerHTML = ""; return; }
+        let html = `<div class="page-item" data-page="prev"><i class="fas fa-chevron-left"></i></div>`;
+        for (let i = 1; i <= Math.min(totalPages, 6); i++) {
+            html += `<div class="page-item ${i === currentPage ? 'active-page' : ''}" data-page="${i}">${i}</div>`;
+        }
+        if (totalPages > 6) html += `<div class="page-item">...</div><div class="page-item" data-page="${totalPages}">${totalPages}</div>`;
+        html += `<div class="page-item" data-page="next"><i class="fas fa-chevron-right"></i></div>`;
+        paginationDiv.innerHTML = html;
+        document.querySelectorAll('.page-item[data-page]').forEach(el => {
+            el.addEventListener('click', () => {
+                let page = parseInt(el.getAttribute('data-page'));
+                if (el.getAttribute('data-page') === 'prev') page = Math.max(1, currentPage - 1);
+                if (el.getAttribute('data-page') === 'next') page = Math.min(totalPages, currentPage + 1);
+                if (!isNaN(page)) { currentPage = page; renderGrid(); window.scrollTo({top: 300, behavior: 'smooth'}); }
+            });
+        });
+    }
+
+    function attachCardEvents() {
+        // Share button
+        document.querySelectorAll('.share-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute('data-id');
+                const template = allTemplates.find(t => t.id == id);
+                if (navigator.share) {
+                    navigator.share({ title: template.title, text: `Check out ${template.title} on MotionCraft`, url: window.location.href });
+                } else {
+                    alert(`🔗 Share "${template.title}" - Copy link: ${window.location.href}`);
+                }
+            });
+        });
+        // Save button (wishlist)
+        document.querySelectorAll('.save-btn').forEach(btn => {
+            btn.addEventListener('click', (e) => {
+                e.stopPropagation();
+                const id = btn.getAttribute('data-id');
+                let saved = JSON.parse(localStorage.getItem('savedTemplates') || '[]');
+                if (!saved.includes(id)) {
+                    saved.push(id);
+                    localStorage.setItem('savedTemplates', JSON.stringify(saved));
+                    alert('❤️ Saved to your collection!');
+                } else {
+                    alert('Already saved');
+                }
+            });
+        });
+        // Download with PAYMENT OPTION
+        document.querySelectorAll('.download-btn').forEach(btn => {
+
+    btn.addEventListener('click', (e) => {
+
+        e.stopPropagation();
+
+        const id = btn.getAttribute('data-id');
+        const price = btn.getAttribute('data-price');
+        const title = btn.getAttribute('data-title');
+
+        localStorage.setItem(
+            'download_template',
+            JSON.stringify({
+                id: id,
+                price: price,
+                title: title
+            })
+        );
+
+        window.location.href =
+            "/login/";
+
+    });
+
+});
+    }
+function initPaymentModal() {
+
+    const modal =
+        document.getElementById('paymentModal');
+
+    const closeBtn =
+        document.getElementById('closeModalBtn');
+
+    function closeModal() {
+        modal.classList.remove('active');
+    }
+
+    closeBtn.onclick = closeModal;
+
+    document
+        .querySelectorAll('.pay-method')
+        .forEach(method => {
+
+        method.onclick = () => {
+
+            if (!pendingDownloadTemplate)
+                return;
+
+            const selectedPlan =
+                method.dataset.plan;
+
+            window.location.href =
+                `/subscribe/?plan=${selectedPlan}`;
+
+        };
+
+    });
+
+    window.onclick = (e) => {
+
+        if (e.target === modal) {
+            closeModal();
+        }
+
+    };
+}
+    function bindFilters() {
+        document.querySelectorAll('.filter-chip').forEach(chip => {
+            chip.addEventListener('click', function() {
+                document.querySelectorAll('.filter-chip').forEach(c => c.classList.remove('active'));
+                this.classList.add('active');
+                currentFilter = this.getAttribute('data-filter');
+                currentPage = 1;
+                renderGrid();
+            });
+        });
+        document.getElementById('searchInput').addEventListener('input', (e) => {
+            currentSearch = e.target.value;
+            currentPage = 1;
+            renderGrid();
+        });
+        document.getElementById('sortSelect').addEventListener('change', (e) => {
+            currentSort = e.target.value;
+            currentPage = 1;
+            renderGrid();
+        });
+    }
+
+    renderGrid();
+    bindFilters();
+    initPaymentModal();
+</script>
+</body>
+</html>

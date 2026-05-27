@@ -1,0 +1,83 @@
+
+  
+
+   <nav class="navbar">
+        <div class="nav-container">
+            <!-- Logo Section with Animation -->
+            <a href="{% url 'home' %}" class="logo-link">
+    <div class="logo">
+        <span class="logo-icon">🎬</span>
+        <span class="logo-text">Motion</span>
+        <span class="logo-dot">Array</span>
+        <div class="logo-glow"></div>
+    </div>
+</a>
+
+            <!-- Navigation Links -->
+            <ul class="nav-links" >
+                <li class="nav-item">
+                    <a href="/" class="nav-link ">
+                        <span>Home</span>
+                        <i class="fas fa-home"></i>
+                    </a>
+                </li>
+                <li class="nav-item dropdown">
+                    <a href="{% url 'template' %}" class="nav-link">
+                        <span>Templates</span>
+                        <i class="fas fa-chevron-down"></i>
+                    </a>
+                    
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'video' %}" class="nav-link">
+                        <span>Videos</span>
+                        <i class="fas fa-video"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'motion_graphics'%}" class="nav-link">
+                        <span>Motion Graphics</span>
+                        <i class="fas fa-envelope"></i>
+                    </a>
+                </li>
+                <li class="nav-item">
+                    <a href="{% url 'contact'%}" class="nav-link">
+                        <span>Contact</span>
+                        <i class="fas fa-blog"></i>
+                    </a>
+                </li>
+                  <li class="nav-item">
+                    <a href="{% url 'subscribe' %}"
+       class="btn btn-primary rounded-pill">
+        Subscribe Now
+    </a>
+                </li>
+            </ul>
+            
+        <!-- Right Actions -->
+        <div class="nav-actions">
+            <a href="{% url 'login' %}" class="login-btn">Log in</a>
+            <button class="mobile-menu-btn" id="mobileMenuBtn">
+                <div class="hamburger">
+                    <span></span>
+                    <span></span>
+                    <span></span>
+                </div>
+            </button>
+        </div>
+    </div>
+
+    <!-- Mobile Menu -->
+     <!-- Mobile Menu -->
+        <div class="mobile-menu" id="mobileMenu">
+            <div class="mobile-menu-content">
+                <a href="/" class="mobile-link">Home</a>
+                <a href="/" class="mobile-link">Templates</a>
+                <a href="/" class="mobile-link">Videos</a>
+                <a href="/" class="mobile-link">Motion Graphics</a>
+                <a href="/" class="mobile-link">Contact</a>
+                <div class="mobile-divider"></div>
+                <a href="#" class="mobile-signup">Sign Up Free</a>
+            </div>
+        </div>
+</nav>
