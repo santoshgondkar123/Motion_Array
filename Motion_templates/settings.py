@@ -131,8 +131,9 @@ AUTHENTICATION_BACKENDS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
-
-
+ALLOWED_HOSTS = ['motion-templates.onrender.com', 'localhost', '127.0.0.1']
+STATIC_URL = 'static/'
+STATICFILES_DIRS = [BASE_DIR / 'static']
 
 
 # Razorpay Keys
@@ -147,7 +148,3 @@ LOGOUT_REDIRECT_URL = '/'
 SOCIALACCOUNT_LOGIN_ON_GET = True
 
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-ALLOWED_HOSTS = ['*']
-
-STATIC_URL = '/static/'
-STATIC_ROOT = BASE_DIR / 'staticfiles'
