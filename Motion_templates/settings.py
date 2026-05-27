@@ -23,9 +23,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5$5hsr(sjkcaxhal8u6z&q%m1jt@z42@o^7iycn&45tvc2zb3a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+# DEBUG = True
 
-ALLOWED_HOSTS = []
 
 
 # Application definition
@@ -53,7 +52,7 @@ INSTALLED_APPS = [
 MIDDLEWARE = [
     'django.middleware.security.SecurityMiddleware',
     'whitenoise.middleware.WhiteNoiseMiddleware',
-    'django.middleware.security.SecurityMiddleware',
+
     'django.contrib.sessions.middleware.SessionMiddleware',
     'django.middleware.common.CommonMiddleware',
     'django.middleware.csrf.CsrfViewMiddleware',
@@ -133,7 +132,12 @@ AUTHENTICATION_BACKENDS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
-ALLOWED_HOSTS = ['motion-templates.onrender.com', 'localhost', '127.0.0.1']
+DEBUG = False
+ALLOWED_HOSTS = [
+    "motion-templates.onrender.com",
+    "motion-templates-1.onrender.com",
+    "localhost",
+    "127.0.0.1",]
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
