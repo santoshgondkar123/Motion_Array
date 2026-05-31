@@ -544,6 +544,31 @@
             .meta { gap: 12px; font-size: 0.7rem; }
             .toast { bottom: 20px; right: 20px; left: 20px; text-align: center; font-size: 0.8rem; }
         }
+  
+
+
+
+.playing-badge{
+    position:absolute;
+    left:20px;
+    bottom:20px;
+
+    background:#081226;
+    color:#fff;
+
+    padding:12px 20px;
+
+    border-radius:40px;
+
+    font-size:14px;
+    font-weight:600;
+
+    z-index:10;
+}
+
+
+
+
     </style>
 </head>
 <body>
@@ -598,9 +623,104 @@
 
     <!-- Templates Grid -->
     <div class="templates-grid" id="templatesGrid"></div>
+{% if videos %}
 
+<h2 style="
+margin-top:40px;
+margin-bottom:20px;
+color:white;
+">
+
+
+<div class="templates-grid">
+
+{% for item in videos %}
+
+<div class="template-card">
+
+    <div class="video-thumb">
+         <div class="action-buttons">
+
+        <button class="action-btn">
+            <i class="fas fa-share-alt"></i>
+        </button>
+
+        <button class="action-btn">
+            <i class="fas fa-heart"></i>
+        </button>
+
+    </div>
+
+        <video autoplay
+               muted
+               loop
+               playsinline>
+
+            <source src="{{ item.video.url }}"
+                    type="video/mp4">
+
+        </video>
+        <div class="play-indicator">
+        <i class="fas fa-play"></i>
+        Playing on view
+    </div>
+
+        <div class="video-badge">
+            {{ item.badge }}
+        </div>
+
+    </div>
+
+    <div class="card-content">
+
+        <div class="card-header">
+            <span class="category">
+                {{ item.category }}
+            </span>
+
+            <span class="price">
+                ₹{{ item.price }}
+            </span>
+        </div>
+
+        <div class="template-title">
+            {{ item.title }}
+            
+        </div>
+        <a href="{% url 'login' %}"
+   class="subscribe-now-btn"
+   style="text-decoration:none;">
+
+    <i class="fas fa-crown"></i>
+    Subscribe Now - ₹{{ item.price }}
+
+</a>
+    
+
+        <div class="meta">
+            <span>
+                <i class="fas fa-download"></i>
+                {{ item.downloads }}
+            </span>
+            
+
+            <span>
+                ⭐ {{ item.rating }}
+            </span>
+        </div>
+
+        <button class="download-btn">
+            Download Video
+        </button>
+
+    </div>
+</div>
+{% endfor %}
+</div>
+{% endif %}
     <!-- Pagination -->
     <div class="pagination" id="pagination"></div>
+    
 </div>
 
 <!-- Subscription Modal with INR Prices -->
@@ -670,7 +790,7 @@
         <button class="close-modal" id="closeModalBtn">Cancel</button>
     </div>
 </div>
-<div id="toastMsg" class="toast">✅ Action completed!</div>
+
 
 {% include 'web/footer.html' %}
 
@@ -840,6 +960,7 @@ allTemplates.push({
                             <source src="${t.videoUrl}" type="video/mp4">
                             Your browser does not support video.
                         </video>
+                        
                         <div class="play-indicator">
                             <i class="fas fa-play"></i> Playing on view
                         </div>

@@ -1,0 +1,333 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Edit Template</title>
+
+    <!-- Bootstrap 5 CSS -->
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+
+    <!-- Font Awesome 6 -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css">
+
+    <style>
+        /* Simple, clean, minimal styling - no functional changes */
+        body {
+            background: #f5f7fb;
+            font-family: system-ui, -apple-system, 'Segoe UI', Roboto, 'Helvetica Neue', sans-serif;
+            padding: 2rem 0;
+        }
+        
+        .container {
+            max-width: 900px;
+        }
+        
+        /* Clean card styling */
+        .card {
+            border: none;
+            border-radius: 20px;
+            background: #ffffff;
+            box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+        }
+        
+        /* Simple heading */
+        .card h2 {
+            color: #1e293b;
+            font-weight: 600;
+            font-size: 1.7rem;
+            border-bottom: 3px solid #e2e8f0;
+            padding-bottom: 0.75rem;
+        }
+        
+        /* Clean form labels */
+        .form-label {
+            font-weight: 600;
+            font-size: 0.85rem;
+            color: #334155;
+            margin-bottom: 0.4rem;
+        }
+        
+        /* Standard inputs */
+        .form-control, .form-select {
+            border: 1px solid #cbd5e1;
+            border-radius: 12px;
+            padding: 0.6rem 1rem;
+            font-size: 0.9rem;
+            background: #ffffff;
+            transition: 0.2s;
+        }
+        
+        .form-control:focus, .form-select:focus {
+            border-color: #3b82f6;
+            box-shadow: 0 0 0 3px rgba(59,130,246,0.1);
+            outline: none;
+        }
+        
+        /* Simple button styles */
+        .btn-dark {
+            background: #1e293b;
+            border: none;
+            border-radius: 40px;
+            padding: 0.5rem 1.2rem;
+            font-weight: 500;
+            font-size: 0.85rem;
+        }
+        
+        .btn-dark:hover {
+            background: #0f172a;
+            transform: translateY(-1px);
+        }
+        
+        .btn-success {
+            background: #10b981;
+            border: none;
+            border-radius: 40px;
+            padding: 0.75rem;
+            font-weight: 600;
+            font-size: 1rem;
+            transition: 0.2s;
+        }
+        
+        .btn-success:hover {
+            background: #059669;
+            transform: translateY(-1px);
+        }
+        
+        /* Simple image thumbnail */
+        .img-thumbnail {
+            border-radius: 12px;
+            border: 1px solid #e2e8f0;
+            padding: 4px;
+        }
+        
+        /* Simple row spacing */
+        .row {
+            margin-bottom: 0;
+        }
+        
+        hr {
+            margin: 1rem 0;
+        }
+        
+        @media (max-width: 768px) {
+            body {
+                padding: 1rem;
+            }
+            .card {
+                padding: 1.2rem !important;
+            }
+        }
+    </style>
+</head>
+<body>
+
+<div class="container mt-2 mt-md-4">
+    
+    <!-- Back button - original href preserved, simple design -->
+    <div class="mb-4">
+        <a href="{% url 'home' %}" class="btn btn-dark shadow-sm">
+            <i class="fas fa-arrow-left me-2"></i>
+            Back To Home
+        </a>
+    </div>
+
+    <!-- Main Edit Card -->
+    <div class="card shadow p-4 p-md-5 rounded-4">
+        
+        <h2 class="mb-4">
+            <i class="fas fa-pen-to-square me-2" style="color: #10b981;"></i>
+            Edit Template
+        </h2>
+
+        <!-- Form - ALL ORIGINAL FIELDS, NAMES, ATTRIBUTES KEPT IDENTICAL -->
+        <form method="POST" enctype="multipart/form-data">
+            {% csrf_token %}
+
+            <!-- Template Title -->
+            <div class="mb-3">
+                <label class="form-label">
+                    <i class="fas fa-heading me-1" style="color: #64748b;"></i> Template Title
+                </label>
+                <input type="text"
+                       name="title"
+                       class="form-control"
+                       value="{{ template.title }}">
+            </div>
+
+            <!-- Category -->
+            <div class="mb-3">
+                <label class="form-label">
+                    <i class="fas fa-layer-group me-1" style="color: #64748b;"></i> Category
+                </label>
+                <input type="text"
+                       name="category"
+                       class="form-control"
+                       value="{{ template.category }}">
+            </div>
+
+            <!-- Price & Rating Row (original structure) -->
+            <div class="row">
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="fas fa-rupee-sign me-1" style="color: #64748b;"></i> Price
+                    </label>
+                    <input type="number"
+                           name="price"
+                           class="form-control"
+                           value="{{ template.price }}">
+                </div>
+
+                <div class="col-md-6">
+                    <label class="form-label">
+                        <i class="fas fa-star me-1" style="color: #f59e0b;"></i> Rating
+                    </label>
+                    <input type="number"
+                           step="0.1"
+                           name="rating"
+                           class="form-control"
+                           value="{{ template.rating }}">
+                </div>
+            </div>
+
+            <br>
+
+            <!-- Downloads -->
+            <div class="mb-3">
+                <label class="form-label">
+                    <i class="fas fa-download me-1" style="color: #64748b;"></i> Downloads
+                </label>
+                <input type="number"
+                       name="downloads"
+                       class="form-control"
+                       value="{{ template.downloads }}">
+            </div>
+
+            <!-- Badge Select - all original options exactly as provided -->
+            <div class="mb-3">
+                <label class="form-label">
+                    <i class="fas fa-medal me-1" style="color: #f59e0b;"></i> Badge
+                </label>
+                <select name="badge" class="form-select">
+                    <option value="⭐ Best Seller" {% if template.badge == "⭐ Best Seller" %}selected{% endif %}>
+                        ⭐ Best Seller
+                    </option>
+                    <option value="🔥 Trending" {% if template.badge == "🔥 Trending" %}selected{% endif %}>
+                        🔥 Trending
+                    </option>
+                    <option value="🆕 New Release" {% if template.badge == "🆕 New Release" %}selected{% endif %}>
+                        🆕 New Release
+                    </option>
+                    <option value="🏆 Editor's Choice" {% if template.badge == "🏆 Editor's Choice" %}selected{% endif %}>
+                        🏆 Editor's Choice
+                    </option>
+                </select>
+            </div>
+
+            <!-- Current Image Display -->
+            <div class="mb-3">
+                <label class="form-label">
+                    <i class="fas fa-image me-1" style="color: #64748b;"></i> Current Image
+                </label>
+                <br>
+                {% if template.image %}
+                    <img src="{{ template.image.url }}"
+                         width="180"
+                         class="img-thumbnail mb-2">
+                {% endif %}
+            </div>
+
+            <!-- Replace Image File Input -->
+            <div class="mb-3">
+                <label class="form-label">
+                    <i class="fas fa-upload me-1" style="color: #64748b;"></i> Replace Image
+                </label>
+                <input type="file"
+                       name="image"
+                       class="form-control">
+            </div>
+
+            <!-- Description Textarea -->
+            <div class="mb-3">
+                <label class="form-label">
+                    <i class="fas fa-align-left me-1" style="color: #64748b;"></i> Description
+                </label>
+                <textarea name="description"
+                          rows="4"
+                          class="form-control">{{ template.description }}</textarea>
+            </div>
+
+            <!-- Update Button - original text and icon -->
+            <button type="submit"
+                    class="btn btn-success btn-lg w-100">
+                <i class="fas fa-save me-2"></i>
+                Update Template
+            </button>
+             <a href="{% url 'upload_template' %}"
+   class="btn btn-dark w-100 mt-3">
+
+    <i class="fas fa-arrow-left me-2"></i>
+    Back
+
+</a>
+        </form>
+    </div>
+
+</div>
+
+<!-- Bootstrap JS (minimal, no interference) -->
+<script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+<!-- Simple non-intrusive script - only logs, doesn't change any functionality -->
+<script>
+    (function() {
+        const form = document.querySelector('form');
+        if (!form) return;
+        
+        // Just logging for demo - does NOT prevent default submit
+        form.addEventListener('submit', function(e) {
+            console.group('📝 Edit Template Form Submission');
+            const formData = new FormData(form);
+            for (let [key, value] of formData.entries()) {
+                if (value instanceof File && value.name) {
+                    console.log(`  ${key}: ${value.name}`);
+                } else if (typeof value === 'string' && value.length < 100) {
+                    console.log(`  ${key}: "${value}"`);
+                }
+            }
+            console.log('✅ Form submitted - all original fields preserved');
+            console.groupEnd();
+            
+            // Optional button feedback (doesn't break anything)
+            const btn = form.querySelector('button[type="submit"]');
+            const originalHtml = btn.innerHTML;
+            btn.innerHTML = '<i class="fas fa-spinner fa-pulse me-2"></i> Updating...';
+            setTimeout(() => {
+                btn.innerHTML = originalHtml;
+            }, 800);
+        });
+        
+        // Optional file name preview (visual only)
+        const fileInput = document.querySelector('input[name="image"]');
+        if (fileInput) {
+            fileInput.addEventListener('change', function() {
+                if (this.files && this.files[0]) {
+                    const parentDiv = this.closest('.mb-3');
+                    let existingMsg = parentDiv?.querySelector('.file-preview-msg');
+                    if (existingMsg) existingMsg.remove();
+                    if (parentDiv) {
+                        const msg = document.createElement('small');
+                        msg.className = 'text-success d-block mt-1 file-preview-msg';
+                        msg.style.fontSize = '0.7rem';
+                        msg.innerHTML = `<i class="fas fa-check-circle me-1"></i> ${this.files[0].name}`;
+                        parentDiv.appendChild(msg);
+                        setTimeout(() => msg.remove(), 2500);
+                    }
+                }
+            });
+        }
+    })();
+</script>
+
+</body>
+</html>

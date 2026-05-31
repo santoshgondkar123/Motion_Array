@@ -758,3 +758,31 @@
                 grid-template-columns: 1fr;
             }
         }
+       .dropdown-menu {
+    list-style: none;
+    padding: 10px;
+    border-radius: 15px;
+}
+.dropdown-menu{
+    min-width:250px;
+    padding:12px;
+}
+
+.dropdown-content{
+    display:flex;
+    flex-direction:column;
+    gap:8px;
+}
+
+.dropdown-content a{
+    color:white;
+    text-decoration:none;
+    padding:12px 15px;
+    border-radius:10px;
+    transition:0.3s;
+}
+
+.dropdown-content a:hover{
+    background:rgba(247,147,30,0.15);
+    color:#f7931e;
+}

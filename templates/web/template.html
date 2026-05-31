@@ -378,6 +378,44 @@
             .filter-bar { flex-direction: column; align-items: stretch; border-radius: 28px; }
             .search-box input { width: 100%; }
         }
+        /* Uploaded Cards Fix */
+
+@media(max-width:1200px){
+    .templates-grid{
+        grid-template-columns:repeat(3,1fr);
+    }
+}
+
+@media(max-width:992px){
+    .templates-grid{
+        grid-template-columns:repeat(2,1fr);
+    }
+}
+
+@media(max-width:768px){
+    .templates-grid{
+        grid-template-columns:1fr;
+    }
+}
+
+.template-card{
+    width: 100%;
+    max-width: 380px;
+    border-radius: 30px;
+    overflow: hidden;
+}
+
+.thumbnail{
+    height: 260px;
+    overflow: hidden;
+}
+
+.thumbnail img{
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    display: block;
+}
     </style>
 </head>
 <body>
@@ -417,8 +455,55 @@
         </select>
     </div>
     <!-- Templates Grid -->
-    <div class="templates-grid" id="templatesGrid"></div>
-    <!-- Pagination -->
+     <div class="templates-grid" id="templatesGrid"></div>
+
+<div class="templates-grid">
+
+{% for item in templates %}
+
+<div class="template-card">
+
+    <div class="thumbnail">
+           
+        <img src="{{ item.image.url }}"
+             alt="{{ item.title }}">
+
+        <div class="thumbnail-badge">
+            {{ item.badge }}
+        </div>
+    </div>
+
+    <div class="card-content">
+
+        <div class="card-header">
+            <span class="category">{{ item.category }}</span>
+            <span class="price">₹{{ item.price }}</span>
+        </div>
+
+        <div class="template-title">
+            {{ item.title }}
+        </div>
+
+        <div class="meta">
+            <span><i class="fas fa-download"></i> {{ item.downloads }}</span>
+            <span>⭐ {{ item.rating }}</span>
+        </div>
+
+        <p>{{ item.description|truncatewords:12 }}</p>
+
+        <button class="download-btn">
+            Download Template
+        </button>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
+
+</div>    <!-- Pagination -->
     <div class="pagination" id="pagination"></div>
 </div>
 

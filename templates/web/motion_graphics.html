@@ -634,6 +634,14 @@
             .template-title { font-size: 1rem; }
             .btn-template { font-size: 0.75rem; padding: 8px; }
         }
+        .template-meta{
+    display:flex;
+    justify-content:space-between;
+    align-items:center;
+    margin-bottom:15px;
+    color:#94a3b8;
+    font-size:.9rem;
+}
     </style>
 </head>
 <body>
@@ -682,6 +690,75 @@
             <h2 class="section-title">Most popular motion graphics</h2>
         </div>
         <div class="templates-grid" id="templatesGrid"></div>
+        <div class="templates-grid">
+
+{% for motion in motions %}
+
+<div class="template-card">
+
+    <div class="template-thumb">
+
+       <video id="video{{ motion.id }}"
+       autoplay
+       muted
+       loop
+       playsinline>
+
+    <source src="{{ motion.video.url }}"
+            type="video/mp4">
+
+</video>
+
+    </div>
+
+    <div class="template-info">
+
+        <div class="template-category">
+            {{ motion.category }}
+        </div>
+
+        <div class="template-title">
+            {{ motion.title }}
+        </div>
+        <div class="template-meta">
+
+    <span>
+        <i class="fas fa-download"></i>
+        {{ motion.downloads }}
+    </span>
+
+       <span>
+        <i class="fas fa-star"
+           style="color:#fbbf24"></i>
+        {{ motion.rating }}
+    </span>
+
+</div>
+
+        <div class="template-price">
+            ₹{{ motion.price }}
+        </div>
+        <div class="template-actions">
+
+            <button class="btn-template"
+                    onclick="toggleVideo({{ motion.id }}, this)">
+                ▶ Preview
+            </button>
+
+            <a href="/login/"
+               class="btn-template">
+               ⬇ Download
+            </a>
+
+        </div>
+
+    </div>
+
+</div>
+
+{% endfor %}
+
+</div>
         <div class="pagination" id="pagination"></div>
     </section>
 
@@ -750,6 +827,36 @@
 <div id="toastMsg" class="toast">✅ Action completed!</div>
 
 <script>
+   function toggleVideo(id, btn){
+
+    const video = document.getElementById(
+        "video" + id
+    );
+
+    if(!video){
+        console.log(
+            "Video not found: video" + id
+        );
+        return;
+    }
+
+    if(video.paused){
+
+        video.play();
+
+        btn.innerHTML =
+            "⏸ Pause";
+
+    }else{
+
+        video.pause();
+
+        btn.innerHTML =
+            "▶ Preview";
+
+    }
+
+}
     // Conversion Rate: 1 USD = 85 INR
     const USD_TO_INR = 85;
     
