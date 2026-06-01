@@ -151,7 +151,7 @@ AUTHENTICATION_BACKENDS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
-DEBUG = True
+DEBUG = False
 ALLOWED_HOSTS = [
     "motion-templates.onrender.com",
     "motion-templates-1.onrender.com",
@@ -177,7 +177,6 @@ LOGOUT_REDIRECT_URL = '/'
 
 SOCIALACCOUNT_LOGIN_ON_GET = True
 ACCOUNT_EMAIL_VERIFICATION = 'none'
-
 
 
 
@@ -254,5 +253,5 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     }
 }
-# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
