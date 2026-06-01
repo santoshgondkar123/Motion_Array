@@ -52,15 +52,25 @@ def delete_template(request, id):
     return redirect("upload_template")
 def edit_template(request, id):
     template = Template.objects.get(id=id)
+
     if request.method == "POST":
+        print("UPDATE BUTTON CLICKED")
         template.title = request.POST.get("title")
         template.category = request.POST.get("category")
         template.price = request.POST.get("price")
+        template.rating = request.POST.get("rating")
+        template.downloads = request.POST.get("downloads")
+        template.badge = request.POST.get("badge")
+        template.description = request.POST.get("description")
+
         if request.FILES.get("image"):
             template.image = request.FILES.get("image")
+
         template.save()
+
         return redirect("upload_template")
-    return render(request, "ad/edit_template.html", {"template": template} )
+
+    return render(request, "ad/edit_template.html", {"template": template})
 
 def upload_video(request):
     if request.method == "POST":
