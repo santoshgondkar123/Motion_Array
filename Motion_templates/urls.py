@@ -48,20 +48,40 @@ urlpatterns = [
     path('user-login/', views.login_view, name='user_login'),
 
     # password reset
-    path('password-reset/',auth_views.PasswordResetView.as_view(template_name='web/password_reset.html'),name='password_reset'),
-    path( 'password-reset/done/',auth_views.PasswordResetDoneView.as_view(template_name='web/password_reset_done.html'),name='password_reset_done'),
-    path('reset/<uidb64>/<token>/',auth_views.PasswordResetConfirmView.as_view(template_name='web/password_reset_confirm.html'),name='password_reset_confirm'),
-    path('reset/complete/',auth_views.PasswordResetCompleteView.as_view(template_name='web/password_reset_complete.html'),name='password_reset_complete'),
-path(
-    'password-reset/',
-    auth_views.PasswordResetView.as_view(
-        template_name='web/password_reset.html',
-        email_template_name='web/password_reset_email.html'
+
+    path(
+        'password-reset/',
+        auth_views.PasswordResetView.as_view(
+            template_name='web/password_reset.html',
+            email_template_name='web/password_reset_email.html'
+        ),
+        name='password_reset'
     ),
-    name='password_reset',
-),
+
+    path(
+        'password-reset/done/',
+        auth_views.PasswordResetDoneView.as_view(
+            template_name='web/password_reset_done.html'
+        ),
+        name='password_reset_done'
+    ),
+
+    path(
+        'reset/<uidb64>/<token>/',
+        auth_views.PasswordResetConfirmView.as_view(
+            template_name='web/password_reset_confirm.html'
+        ),
+        name='password_reset_confirm'
+    ),
+
+    path(
+        'reset/complete/',
+        auth_views.PasswordResetCompleteView.as_view(
+            template_name='web/password_reset_complete.html'
+),name='password_reset_complete'    ),
+
     # admin-login
-    path('admin-login/',ad.admin_login, name='admin_login'),
+path('admin-login/',ad.admin_login, name='admin_login'),
 
     #upload
 path('upload-template/',ad.upload_template,name='upload_template'),
@@ -87,7 +107,11 @@ path('upload-motion/',ad.upload_motion,name='upload_motion'),
 path('logout/', views.user_logout, name='logout')
 
 ]
-urlpatterns += static(
-    settings.MEDIA_URL,
-    document_root=settings.MEDIA_ROOT
-)
+if settings.DEBUG:
+    urlpatterns += static(
+        settings.MEDIA_URL,
+        document_root=settings.MEDIA_ROOT
+    )
+
+print("DEBUG =", settings.DEBUG)
+print("MEDIA_ROOT =", settings.MEDIA_ROOT)

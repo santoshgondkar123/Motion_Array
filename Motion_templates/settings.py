@@ -14,8 +14,8 @@ from pathlib import Path
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
-
-
+MEDIA_URL = '/media/'   
+MEDIA_ROOT = BASE_DIR / 'media'
 # Quick-start development settings - unsuitable for production
 # See https://docs.djangoproject.com/en/6.0/howto/deployment/checklist/
 
@@ -23,7 +23,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-5$5hsr(sjkcaxhal8u6z&q%m1jt@z42@o^7iycn&45tvc2zb3a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 
@@ -151,7 +151,7 @@ AUTHENTICATION_BACKENDS = (
 
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
-DEBUG = False
+DEBUG = True
 ALLOWED_HOSTS = [
     "motion-templates.onrender.com",
     "motion-templates-1.onrender.com",
@@ -180,19 +180,19 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 
 
-import os
+# import os
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = "santoshgondkar22@gmail.com"
-# EMAIL_HOST_PASSWORD = "hkjw ifuh hysd ndnq"
-EMAIL_HOST_USER = os.getenv("santoshgondkar22@gmail.com")
-EMAIL_HOST_PASSWORD = os.getenv("hkjw ifuh hysd ndnq")
-
+# EMAIL_HOST_USER = os.getenv("santoshgondkar22@gmail.com")
+# EMAIL_HOST_PASSWORD = os.getenv("hkjwifuhhysdndnq")
+EMAIL_HOST_USER = "santoshgondkar22@gmail.com"
+EMAIL_HOST_PASSWORD = "hkjw ifuh hysd ndnq"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
-MEDIA_URL = '/media/'   
-MEDIA_ROOT = BASE_DIR / 'media'
+
+
+
 SOCIALACCOUNT_PROVIDERS = {
     "google": {
         "SCOPE": [
@@ -238,7 +238,7 @@ LOGGING = {
         "handlers": ["console"],
         "level": "DEBUG",
     },
-}
+}   
 
 SOCIALACCOUNT_STORE_TOKENS = True
 
@@ -253,5 +253,5 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     }
 }
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
