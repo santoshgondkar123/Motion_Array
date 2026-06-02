@@ -153,10 +153,11 @@ AUTHENTICATION_BACKENDS = (
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 DEBUG = True
 ALLOWED_HOSTS = [
-    "motion-templates.onrender.com",
+    "motion-array.onrender.com",
     "motion-templates-1.onrender.com",
     "localhost",
-    "127.0.0.1",]
+    "127.0.0.1",
+]
 STATIC_URL = '/static/'
 
 STATICFILES_DIRS = [
