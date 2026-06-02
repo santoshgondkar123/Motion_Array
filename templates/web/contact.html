@@ -1,0 +1,729 @@
+<!DOCTYPE html>
+{% load static %}
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=yes">
+    <meta name="description" content="Contact MotionHive - Get in touch with our support team for questions about motion graphics templates, subscriptions, and partnerships.">
+    <title>MotionHive | Contact Us - Motion Graphics Support</title>
+    
+    <!-- Google Fonts -->
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300;400;500;600;700;800&display=swap" rel="stylesheet">
+    
+    <!-- Font Awesome -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    
+    <!-- Django Static Files -->
+    <link rel="stylesheet" href="{% static 'web/css/base.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/navbar.css' %}">
+    <link rel="stylesheet" href="{% static 'web/css/footer.css' %}">
+    
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Inter', sans-serif;
+            background: linear-gradient(135deg, #0a0c15 0%, #0f172a 50%, #0a0c15 100%);
+            color: #e2e8f0;
+            line-height: 1.5;
+            overflow-x: hidden;
+        }
+
+        .contact-container {
+            max-width: 1280px;
+            margin: 0 auto;
+            padding: 60px 32px 100px;
+        }
+
+        /* Custom Scrollbar */
+        ::-webkit-scrollbar { width: 8px; }
+        ::-webkit-scrollbar-track { background: #1e293b; }
+        ::-webkit-scrollbar-thumb { background: linear-gradient(135deg, #f7931e, #ff6b35); border-radius: 10px; }
+
+        /* Animations */
+        @keyframes fadeUp {
+            from { opacity: 0; transform: translateY(30px); }
+            to { opacity: 1; transform: translateY(0); }
+        }
+
+        @keyframes float {
+            0%, 100% { transform: translateY(0); }
+            50% { transform: translateY(-10px); }
+        }
+
+        .animate-fade-up {
+            animation: fadeUp 0.6s ease forwards;
+        }
+
+        /* Hero Section */
+        .contact-hero {
+            text-align: center;
+            margin-bottom: 60px;
+            padding: 40px 20px;
+        }
+
+        .contact-hero h1 {
+            font-size: 3.5rem;
+            font-weight: 800;
+            background: linear-gradient(135deg, #ffffff, #f7931e, #ff6b35);
+            background-clip: text;
+            -webkit-background-clip: text;
+            color: transparent;
+            margin-bottom: 20px;
+        }
+
+        .contact-hero p {
+            font-size: 1.1rem;
+            color: #94a3b8;
+            max-width: 600px;
+            margin: 0 auto;
+        }
+
+        /* Contact Grid */
+        .contact-grid {
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 50px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 48px;
+            padding: 48px;
+            border: 1px solid rgba(247, 147, 30, 0.2);
+        }
+
+        /* Contact Info Section */
+        .contact-info {
+            background: rgba(30, 43, 60, 0.5);
+            border-radius: 32px;
+            padding: 32px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .info-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 12px;
+        }
+
+        .info-subtitle {
+            color: #94a3b8;
+            margin-bottom: 32px;
+            font-size: 0.9rem;
+        }
+
+        .info-item {
+            display: flex;
+            align-items: flex-start;
+            gap: 18px;
+            margin-bottom: 28px;
+            padding: 16px;
+            background: rgba(255,255,255,0.03);
+            border-radius: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .info-item:hover {
+            background: rgba(247, 147, 30, 0.1);
+            transform: translateX(5px);
+        }
+
+        .info-icon {
+            width: 50px;
+            height: 50px;
+            background: linear-gradient(135deg, rgba(247,147,30,0.2), rgba(255,107,53,0.2));
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.4rem;
+            color: #f7931e;
+        }
+
+        .info-details h4 {
+            color: white;
+            font-size: 1rem;
+            margin-bottom: 5px;
+        }
+
+        .info-details p, .info-details a {
+            color: #94a3b8;
+            text-decoration: none;
+            font-size: 0.9rem;
+            transition: color 0.3s;
+        }
+
+        .info-details a:hover {
+            color: #f7931e;
+        }
+
+        /* Social Links */
+        .social-links {
+            margin-top: 32px;
+            padding-top: 24px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-links h4 {
+            color: white;
+            margin-bottom: 16px;
+            font-size: 1rem;
+        }
+
+        .social-icons {
+            display: flex;
+            gap: 16px;
+            flex-wrap: wrap;
+        }
+
+        .social-icon {
+            width: 45px;
+            height: 45px;
+            background: rgba(255,255,255,0.08);
+            border-radius: 50%;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: #94a3b8;
+            font-size: 1.2rem;
+            transition: all 0.3s ease;
+            cursor: pointer;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .social-icon:hover {
+            background: linear-gradient(135deg, #f7931e, #ff6b35);
+            color: white;
+            transform: translateY(-5px);
+        }
+
+        /* Contact Form */
+        .contact-form {
+            background: rgba(30, 43, 60, 0.5);
+            border-radius: 32px;
+            padding: 32px;
+            border: 1px solid rgba(255,255,255,0.1);
+        }
+
+        .form-title {
+            font-size: 1.5rem;
+            font-weight: 700;
+            color: white;
+            margin-bottom: 28px;
+        }
+
+        .form-group {
+            margin-bottom: 24px;
+        }
+
+        .form-group label {
+            display: block;
+            color: #cbd5e1;
+            margin-bottom: 8px;
+            font-size: 0.85rem;
+            font-weight: 500;
+        }
+
+        .form-group input, .form-group select, .form-group textarea {
+            width: 100%;
+            padding: 14px 18px;
+            background: rgba(15, 23, 42, 0.8);
+            border: 1px solid rgba(255,255,255,0.15);
+            border-radius: 16px;
+            color: white;
+            font-size: 0.95rem;
+            transition: all 0.3s ease;
+            font-family: 'Inter', sans-serif;
+        }
+
+        .form-group input:focus, .form-group select:focus, .form-group textarea:focus {
+            outline: none;
+            border-color: #f7931e;
+            box-shadow: 0 0 0 3px rgba(247,147,30,0.2);
+        }
+
+        .form-group textarea {
+            resize: vertical;
+            min-height: 120px;
+        }
+
+        .form-row {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            gap: 20px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            background: linear-gradient(135deg, #f7931e, #ff6b35);
+            border: none;
+            padding: 16px;
+            border-radius: 50px;
+            color: white;
+            font-weight: 700;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: all 0.3s ease;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 10px;
+            margin-top: 16px;
+        }
+
+        .submit-btn:hover {
+            transform: translateY(-2px);
+            box-shadow: 0 8px 25px rgba(247,147,30,0.4);
+        }
+
+        /* Map Section */
+        .map-section {
+            margin-top: 60px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 24px;
+            border: 1px solid rgba(247, 147, 30, 0.2);
+        }
+
+        .map-title {
+            text-align: center;
+            margin-bottom: 24px;
+        }
+
+        .map-title h3 {
+            font-size: 1.3rem;
+            color: white;
+        }
+
+        .map-title p {
+            color: #94a3b8;
+            font-size: 0.85rem;
+        }
+
+        .map-container {
+            width: 100%;
+            height: 300px;
+            border-radius: 24px;
+            overflow: hidden;
+        }
+
+        .map-container iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+            filter: grayscale(0.3) invert(0.1);
+        }
+
+        /* FAQ Section */
+        .faq-section {
+            margin-top: 60px;
+            background: rgba(15, 23, 42, 0.6);
+            backdrop-filter: blur(12px);
+            border-radius: 32px;
+            padding: 48px;
+            border: 1px solid rgba(247, 147, 30, 0.2);
+        }
+
+        .faq-title {
+            text-align: center;
+            margin-bottom: 40px;
+        }
+
+        .faq-title h3 {
+            font-size: 1.8rem;
+            color: white;
+            margin-bottom: 10px;
+        }
+
+        .faq-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+            gap: 24px;
+        }
+
+        .faq-item {
+            background: rgba(30, 43, 60, 0.5);
+            border-radius: 20px;
+            padding: 24px;
+            transition: all 0.3s ease;
+            cursor: pointer;
+        }
+
+        .faq-item:hover {
+            background: rgba(247, 147, 30, 0.1);
+            transform: translateY(-5px);
+        }
+
+        .faq-question {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            font-weight: 700;
+            color: white;
+            font-size: 1rem;
+        }
+
+        .faq-question i {
+            color: #f7931e;
+            transition: transform 0.3s;
+        }
+
+        .faq-item:hover .faq-question i {
+            transform: rotate(90deg);
+        }
+
+        .faq-answer {
+            color: #94a3b8;
+            font-size: 0.85rem;
+            margin-top: 12px;
+            padding-top: 12px;
+            border-top: 1px solid rgba(255,255,255,0.1);
+            display: none;
+        }
+
+        .faq-item.active .faq-answer {
+            display: block;
+        }
+
+        /* Toast Message */
+        .toast {
+            position: fixed;
+            bottom: 30px;
+            right: 30px;
+            background: linear-gradient(135deg, #f7931e, #ff6b35);
+            color: white;
+            padding: 14px 28px;
+            border-radius: 50px;
+            z-index: 1100;
+            display: none;
+            font-weight: 500;
+            animation: fadeUp 0.3s ease;
+        }
+
+        /* Responsive */
+        @media (max-width: 968px) {
+            .contact-grid {
+                grid-template-columns: 1fr;
+                padding: 32px;
+                gap: 30px;
+            }
+
+            .contact-hero h1 {
+                font-size: 2.5rem;
+            }
+
+            .contact-container {
+                padding: 40px 20px 80px;
+            }
+        }
+
+        @media (max-width: 768px) {
+            .form-row {
+                grid-template-columns: 1fr;
+                gap: 0;
+            }
+
+            .faq-grid {
+                grid-template-columns: 1fr;
+            }
+
+            .faq-section {
+                padding: 32px 20px;
+            }
+
+            .contact-info, .contact-form {
+                padding: 24px;
+            }
+
+            .info-item {
+                padding: 12px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .contact-hero h1 {
+                font-size: 1.8rem;
+            }
+
+            .contact-grid {
+                padding: 20px;
+            }
+
+            .social-icons {
+                justify-content: center;
+            }
+        }
+    </style>
+</head>
+<body>
+
+{% include 'web/navbar.html' %}
+
+<div class="contact-container">
+    <!-- Hero Section -->
+    <div class="contact-hero animate-fade-up">
+        <h1>Get in Touch</h1>
+        <p>Have questions about motion graphics templates, subscriptions, or partnerships? We're here to help!</p>
+    </div>
+
+    <!-- Contact Grid -->
+    <div class="contact-grid animate-fade-up" style="animation-delay: 0.1s;">
+        <!-- Contact Info Section -->
+        <div class="contact-info">
+            <div class="info-title">Connect With Us</div>
+            <div class="info-subtitle">Our team is ready to assist you with any inquiries</div>
+
+            <div class="info-item" onclick="location.href='mailto:support@motionhive.com'">
+                <div class="info-icon"><i class="fas fa-envelope"></i></div>
+                <div class="info-details">
+                    <h4>Email Us</h4>
+                    <p>santoshgondkar22@.com</p>
+                    <p>sales@motionhive.com</p>
+                </div>
+            </div>
+
+            <div class="info-item" onclick="location.href='tel:+1234567890'">
+                <div class="info-icon"><i class="fas fa-phone-alt"></i></div>
+                <div class="info-details">
+                    <h4>Call Us</h4>
+                    <p>+919892421284</p>
+                    <p>Mon-Fri, 9AM - 6PM EST</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon"><i class="fas fa-map-marker-alt"></i></div>
+                <div class="info-details">
+                    <h4>Visit Us</h4>
+                    <p>123 Creative Street, Suite 400</p>
+                    <p>Los Angeles, CA 90210, USA</p>
+                </div>
+            </div>
+
+            <div class="info-item">
+                <div class="info-icon"><i class="fas fa-clock"></i></div>
+                <div class="info-details">
+                    <h4>Support Hours</h4>
+                    <p>Monday - Friday: 9:00 AM - 8:00 PM EST</p>
+                    <p>Saturday: 10:00 AM - 4:00 PM EST</p>
+                </div>
+            </div>
+
+            <!-- Social Links -->
+            <div class="social-links">
+                <h4>Follow Our Motion Journey</h4>
+                <div class="social-icons">
+                    <div class="social-icon" onclick="window.open('https://instagram.com', '_blank')"><i class="fab fa-instagram"></i></div>
+                    <div class="social-icon" onclick="window.open('https://twitter.com', '_blank')"><i class="fab fa-twitter"></i></div>
+                    <div class="social-icon" onclick="window.open('https://youtube.com', '_blank')"><i class="fab fa-youtube"></i></div>
+                    <div class="social-icon" onclick="window.open('https://linkedin.com', '_blank')"><i class="fab fa-linkedin-in"></i></div>
+                    <div class="social-icon" onclick="window.open('https://dribbble.com', '_blank')"><i class="fab fa-dribbble"></i></div>
+                    <div class="social-icon" onclick="window.open('https://github.com', '_blank')"><i class="fab fa-github"></i></div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Contact Form -->
+        <div class="contact-form">
+            <div class="form-title">Send us a Message</div>
+            <form id="contactForm">
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Full Name</label>
+                        <input type="text" id="fullName" placeholder="John Carter" required>
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-envelope"></i> Email Address</label>
+                        <input type="email" id="email" placeholder="john@example.com" required>
+                    </div>
+                </div>
+
+                <div class="form-row">
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> Phone Number</label>
+                        <input type="tel" id="phone" placeholder="+1 234 567 8900">
+                    </div>
+                    <div class="form-group">
+                        <label><i class="fas fa-tag"></i> Subject</label>
+                        <select id="subject">
+                            <option value="general">General Inquiry</option>
+                            <option value="support">Technical Support</option>
+                            <option value="subscription">Subscription Issue</option>
+                            <option value="partnership">Partnership Opportunity</option>
+                            <option value="billing">Billing Question</option>
+                            <option value="feedback">Feedback/Suggestion</option>
+                        </select>
+                    </div>
+                </div>
+
+                <div class="form-group">
+                    <label><i class="fas fa-comment"></i> Message</label>
+                    <textarea id="message" placeholder="Tell us how we can help you with your motion graphics project..." required></textarea>
+                </div>
+
+                <button type="submit" class="submit-btn">
+                    <i class="fas fa-paper-plane"></i> Send Message
+                </button>
+            </form>
+        </div>
+    </div>
+
+    <!-- Map Section -->
+    <div class="map-section animate-fade-up" style="animation-delay: 0.2s;">
+        <div class="map-title">
+            <h3><i class="fas fa-location-dot" style="color: #f7931e;"></i> Our Studio Location</h3>
+            <p>MotionHive Creative Studio - Los Angeles, CA</p>
+        </div>
+        <div class="map-container">
+            <iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3305.948277743666!2d-118.25279668478489!3d34.05223518060546!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x80c2c75ddc27da13%3A0xe22fdf6f254608f4!2sLos%20Angeles%2C%20CA%2C%20USA!5e0!3m2!1sen!2sin!4v1700000000000!5m2!1sen!2sin" allowfullscreen="" loading="lazy" referrerpolicy="no-referrer-when-downgrade"></iframe>
+        </div>
+    </div>
+
+    <!-- FAQ Section -->
+    <div class="faq-section animate-fade-up" style="animation-delay: 0.3s;">
+        <div class="faq-title">
+            <h3><i class="fas fa-question-circle" style="color: #f7931e;"></i> Frequently Asked Questions</h3>
+            <p>Quick answers to common questions about MotionHive</p>
+        </div>
+        <div class="faq-grid">
+            <div class="faq-item">
+                <div class="faq-question">How do I download templates after subscription? <i class="fas fa-chevron-right"></i></div>
+                <div class="faq-answer">After subscribing, you'll get unlimited access to all 1000+ templates. Simply browse any template and click the "Download" button. Your downloads will start immediately.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">What software do I need for these templates? <i class="fas fa-chevron-right"></i></div>
+                <div class="faq-answer">Our templates work with Adobe After Effects, Premiere Pro, DaVinci Resolve, Final Cut Pro, and other major video editing software.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Can I use templates for commercial projects? <i class="fas fa-chevron-right"></i></div>
+                <div class="faq-answer">Yes! All templates come with a commercial license. You can use them in client projects, YouTube videos, commercials, and any commercial work.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">How often are new templates added? <i class="fas fa-chevron-right"></i></div>
+                <div class="faq-answer">We add 50+ new motion graphics templates every week. Subscribe to stay updated with the latest trends and styles.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Can I cancel my subscription anytime? <i class="fas fa-chevron-right"></i></div>
+                <div class="faq-answer">Absolutely! You can cancel your subscription anytime from your account settings. No questions asked, and you keep access until the billing period ends.</div>
+            </div>
+            <div class="faq-item">
+                <div class="faq-question">Do you offer custom motion design services? <i class="fas fa-chevron-right"></i></div>
+                <div class="faq-answer">Yes! We have a team of professional motion designers available for custom projects. Contact our sales team for a quote.</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+{% include 'web/footer.html' %}
+
+<div id="toastMsg" class="toast">✅ Message sent successfully!</div>
+
+<script>
+    // FAQ Toggle
+    document.querySelectorAll('.faq-item').forEach(item => {
+        item.addEventListener('click', () => {
+            item.classList.toggle('active');
+        });
+    });
+
+    // Form Submission Handler
+    const contactForm = document.getElementById('contactForm');
+    const toast = document.getElementById('toastMsg');
+
+    function showToastMessage(message, isError = false) {
+        toast.textContent = message;
+        toast.style.backgroundColor = isError ? '#ef4444' : 'linear-gradient(135deg, #f7931e, #ff6b35)';
+        toast.style.display = 'block';
+        setTimeout(() => {
+            toast.style.display = 'none';
+            toast.style.backgroundColor = '';
+        }, 3000);
+    }
+
+    contactForm.addEventListener('submit', async (e) => {
+        e.preventDefault();
+        
+        // Get form values
+        const fullName = document.getElementById('fullName').value.trim();
+        const email = document.getElementById('email').value.trim();
+        const phone = document.getElementById('phone').value.trim();
+        const subject = document.getElementById('subject').value;
+        const message = document.getElementById('message').value.trim();
+        
+        // Simple validation
+        if (!fullName || !email || !message) {
+            showToastMessage('❌ Please fill all required fields!', true);
+            return;
+        }
+        
+        if (!email.includes('@') || !email.includes('.')) {
+            showToastMessage('❌ Please enter a valid email address!', true);
+            return;
+        }
+        
+        // Simulate form submission (replace with actual backend call)
+        const submitBtn = document.querySelector('.submit-btn');
+        const originalText = submitBtn.innerHTML;
+        submitBtn.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Sending...';
+        submitBtn.disabled = true;
+        
+        // Simulate API call
+        setTimeout(() => {
+            console.log('Form submitted:', { fullName, email, phone, subject, message });
+            
+            // Reset form
+            contactForm.reset();
+            
+            // Show success message
+            showToastMessage('✅ Message sent successfully! We\'ll get back to you within 24 hours.');
+            
+            // Reset button
+            submitBtn.innerHTML = originalText;
+            submitBtn.disabled = false;
+            
+            // Optional: Send to backend
+            // fetch('/api/contact/', {
+            //     method: 'POST',
+            //     headers: { 'Content-Type': 'application/json' },
+            //     body: JSON.stringify({ fullName, email, phone, subject, message })
+            // });
+        }, 1500);
+    });
+
+    // Input field animations
+    document.querySelectorAll('input, select, textarea').forEach(field => {
+        field.addEventListener('focus', () => {
+            field.parentElement.style.transform = 'translateX(5px)';
+        });
+        field.addEventListener('blur', () => {
+            field.parentElement.style.transform = 'translateX(0)';
+        });
+    });
+
+    // Scroll reveal for FAQ items
+    const observerOptions = { threshold: 0.1 };
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateY(0)';
+                observer.unobserve(entry.target);
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.faq-item, .info-item, .map-section, .contact-form, .contact-info').forEach(el => {
+        el.style.opacity = '0';
+        el.style.transform = 'translateY(20px)';
+        el.style.transition = 'all 0.5s ease';
+        observer.observe(el);
+    });
+</script>
+</body>
+</html>

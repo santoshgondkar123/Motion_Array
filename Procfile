@@ -1,0 +1,1 @@
+web: gunicorn Motion_templates.wsgi:application
