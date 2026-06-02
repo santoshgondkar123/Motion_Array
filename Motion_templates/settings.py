@@ -23,7 +23,7 @@ MEDIA_ROOT = BASE_DIR / 'media'
 SECRET_KEY = 'django-insecure-5$5hsr(sjkcaxhal8u6z&q%m1jt@z42@o^7iycn&45tvc2zb3a'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 
 
@@ -180,15 +180,15 @@ ACCOUNT_EMAIL_VERIFICATION = 'none'
 
 
 
-# import os
+import os
 EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-# EMAIL_HOST_USER = os.getenv("santoshgondkar22@gmail.com")
-# EMAIL_HOST_PASSWORD = os.getenv("hkjwifuhhysdndnq")
-EMAIL_HOST_USER = "santoshgondkar22@gmail.com"
-EMAIL_HOST_PASSWORD = "hkjw ifuh hysd ndnq"
+EMAIL_HOST_USER = os.getenv("santoshgondkar22@gmail.com")
+EMAIL_HOST_PASSWORD = os.getenv("hkjwifuhhysdndnq")
+# EMAIL_HOST_USER = "santoshgondkar22@gmail.com"
+# EMAIL_HOST_PASSWORD = "hkjw ifuh hysd ndnq"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
@@ -253,6 +253,7 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     }
 }
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
+ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
