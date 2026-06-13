@@ -1,5 +1,16 @@
+<<<<<<< HEAD
 db.sqlite3
 media/
 __pycache__/
 *.pyc
 .env
+=======
+env/
+venv/
+.venv/
+__pycache__/
+*.pyc
+db.sqlite3
+media/
+staticfiles/
+>>>>>>> 66d6311d051feec066506cda8232ea09d2d51ec2
