@@ -8,27 +8,102 @@ import random
 from django.contrib.auth.models import User
 from django.contrib.auth import authenticate, login
 from django.contrib.auth import logout
-from adpanel.models import Template as TemplateModel 
-from adpanel.models import Video as VideoModel
-from adpanel.models import Motion as Motion
+from adpanel.models import Asset
+from django.db.models import Avg, Count
+from django.http import FileResponse
+from django.shortcuts import get_object_or_404
+from adpanel.models import Subscription
 
 def Home(request):
     return render(request, 'web/base.html')
-
 def Template(request):
-    templates = TemplateModel.objects.all().order_by('-id')
-    return render(request,'web/template.html',{'templates' : templates})
 
+    templates = Asset.objects.filter(
+        asset_type='template'
+    ).annotate(
+        average_rating=Avg('ratings__rating'),
+        total_reviews=Count('ratings')
+    ).order_by('-id')
 
+    for item in templates:
+
+        item.user_rating = 0
+
+        if request.user.is_authenticated:
+
+            rating = item.ratings.filter(
+                user=request.user
+            ).first()
+
+            if rating:
+                item.user_rating = rating.rating
+
+    return render(
+        request,
+        'web/template.html',
+        {
+            'templates': templates
+        }
+    )
 def Motion_graphics(request):
-    motions = Motion.objects.all().order_by('-id')
-    return render(request ,'web/motion_graphics.html',{'motions': motions})
+
+    motions = Asset.objects.filter(
+        asset_type='motion'
+    ).annotate(
+        average_rating=Avg('ratings__rating'),
+        total_reviews=Count('ratings')
+    ).order_by('-id')
+
+    for item in motions:
+
+        item.user_rating = 0
+
+        if request.user.is_authenticated:
+
+            rating = item.ratings.filter(
+                user=request.user
+            ).first()
+
+            if rating:
+                item.user_rating = rating.rating
+
+    return render(
+        request,
+        'web/motion_graphics.html',
+        {
+            'motions': motions
+        }
+    )
 
 def Video(request):
-    videos = VideoModel.objects.all().order_by('-id')
-    print(videos)
-    return render(request, 'web/video.html',{'videos':videos})
 
+    videos = Asset.objects.filter(
+        asset_type='video'
+    ).annotate(
+        average_rating=Avg('ratings__rating'),
+        total_reviews=Count('ratings')
+    ).order_by('-id')
+
+    for item in videos:
+
+        item.user_rating = 0
+
+        if request.user.is_authenticated:
+
+            rating = item.ratings.filter(
+                user=request.user
+            ).first()
+
+            if rating:
+                item.user_rating = rating.rating
+
+    return render(
+        request,
+        'web/video.html',
+        {
+            'videos': videos
+        }
+    )
 def Log_in(request):
     return render(request, 'web/login.html')
     
@@ -87,6 +162,31 @@ def Payment_Success(request):
     status = request.POST.get("status")
 
     if status == "success":
+
+        if request.user.is_authenticated:
+
+            plan = request.POST.get(
+                "productinfo",
+                "Monthly Subscription"
+            )
+
+            if "Yearly" in plan:
+                selected_plan = "yearly"
+
+            elif "Lifetime" in plan:
+                selected_plan = "lifetime"
+
+            else:
+                selected_plan = "monthly"
+
+            subscription, created = Subscription.objects.get_or_create(
+                user=request.user
+            )
+
+            subscription.plan = selected_plan
+            subscription.is_active = True
+            subscription.save()
+
         return render(
             request,
             "web/payment_success.html"
@@ -94,7 +194,7 @@ def Payment_Success(request):
 
     return render(
         request,
-        "web/payment_sucess.html"
+        "web/payment_failed.html"
     )
 
 
@@ -155,3 +255,27 @@ def login_view(request):
 def user_logout(request):
     logout(request)
     return redirect("home")
+
+def download_asset(request, id):
+
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    has_subscription = Subscription.objects.filter(
+        user=request.user,
+        is_active=True
+    ).exists()
+
+    if not has_subscription:
+        return redirect("subscribe")
+
+    asset = get_object_or_404(
+        Asset,
+        id=id
+    )
+
+    return FileResponse(
+        asset.zip_file.open('rb'),
+        as_attachment=True,
+        filename=asset.zip_file.name.split('/')[-1]
+    )

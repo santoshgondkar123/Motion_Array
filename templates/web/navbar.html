@@ -1,17 +1,22 @@
 
   
-
+{% load static %}
    <nav class="navbar">
-        <div class="nav-container">
-            <!-- Logo Section with Animation -->
-            <a href="{% url 'home' %}" class="logo-link">
-    <div class="logo">
-        <span class="logo-icon">🎬</span>
-        <span class="logo-text">Motion</span>
-        <span class="logo-dot">Array</span>
-        <div class="logo-glow"></div>
-    </div>
-</a>
+       <div class="nav-container">
+
+    <!-- Logo -->
+    <a href="{% url 'home' %}" class="logo-link">
+
+        <!-- <img src="{% static 'web/images/' %}"
+             alt="Motion Graphics Logo"
+             class="navbar-logo"> -->
+
+        <div class="logo">
+            <span class="logo-text">Motion</span>
+            <span class="logo-dot">Array</span>
+        </div>
+
+    </a>
 
             <!-- Navigation Links -->
             <ul class="nav-links" >
@@ -57,21 +62,12 @@
     <div class="dropdown-menu">
         <div class="dropdown-content">
 
-            <a href="{% url 'upload_template' %}">
+            <a href="{% url 'upload_asset' %}">
                 <i class="fas fa-file-upload"></i>
-                Upload Template
+                Upload Asset
             </a>
 
-            <a href="{% url 'upload_video' %}">
-                <i class="fas fa-video"></i>
-                Upload Video
-            </a>
-
-            <a href="{% url 'upload_motion' %}">
-                <i class="fas fa-film"></i>
-                Upload Motion Graphics
-            </a>
-
+           
         </div>
     </div>
 

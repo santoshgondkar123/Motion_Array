@@ -104,8 +104,41 @@ path('upload-motion/',ad.upload_motion,name='upload_motion'),
         ad.delete_motion,
         name='delete_motion'
     ),
-path('logout/', views.user_logout, name='logout')
+path('logout/', views.user_logout, name='logout'),
+path(
+    'upload-asset/',
+    ad.upload_asset,
+    name='upload_asset'
+),
 
+path(
+    'edit-asset/<int:id>/',
+    ad.edit_asset,
+    name='edit_asset'
+),
+
+path(
+    'delete-asset/<int:id>/',
+    ad.delete_asset,
+    name='delete_asset'
+),
+path(
+    'rate-asset/<int:id>/',
+    ad.rate_asset,
+    name='rate_asset'
+),
+
+# user rating
+path(
+    'rate-asset/<int:id>/',
+    ad.rate_asset,
+    name='rate_asset'
+),
+path(
+    'download/<int:id>/',
+    views.download_asset,
+    name='download_asset'
+),
 ]
 if settings.DEBUG:
     urlpatterns += static(

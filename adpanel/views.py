@@ -1,9 +1,13 @@
 from django.shortcuts import render , redirect
 from django.contrib.auth import authenticate, login
 from django.contrib import messages
-
+from .models import Asset
 
 from .models import Template , Video , Motion
+
+# rating user
+from .models import Asset, AssetRating
+from django.contrib.auth.decorators import login_required
 # Create your views here.
 def index(request):
     return render(request,'ad/index.html')
@@ -171,4 +175,127 @@ def edit_motion(request, id):
         request,
         "ad/edit_motion.html",
         {"motion": motion}
+    )
+
+
+
+# upload
+def upload_asset(request):
+
+    if request.method == "POST":
+
+        Asset.objects.create(
+    asset_type=request.POST.get("asset_type"),
+    title=request.POST.get("title"),
+    category=request.POST.get("category"),
+    price=request.POST.get("price") or 0,
+    downloads=request.POST.get("downloads") or 0,
+    badge=request.POST.get("badge"),
+    description=request.POST.get("description"),
+    thumbnail=request.FILES.get("thumbnail"),
+    preview_video=request.FILES.get("preview_video"),
+    zip_file=request.FILES.get("zip_file")
+)
+
+        return redirect("upload_asset")
+
+    assets = Asset.objects.all().order_by("-id")
+
+    return render(
+        request,
+        "ad/upload_asset.html",
+        {
+            "assets": assets
+        }
+    )
+def edit_asset(request, id):
+
+    asset = Asset.objects.get(id=id)
+
+    if request.method == "POST":
+
+        asset.asset_type = request.POST.get("asset_type")
+        asset.title = request.POST.get("title")
+        asset.category = request.POST.get("category")
+        asset.price = request.POST.get("price")
+        asset.downloads = request.POST.get("downloads")
+        asset.badge = request.POST.get("badge")
+        asset.description = request.POST.get("description")
+
+        if request.FILES.get("thumbnail"):
+            asset.thumbnail = request.FILES.get("thumbnail")
+
+        if request.FILES.get("preview_video"):
+            asset.preview_video = request.FILES.get("preview_video")
+
+        if request.FILES.get("zip_file"):
+            asset.zip_file = request.FILES.get("zip_file")
+
+        asset.save()
+
+        return redirect("upload_asset")
+
+    return render(
+        request,
+        "ad/edit_asset.html",
+        {
+            "asset": asset
+        }
+    )
+def delete_asset(request, id):
+
+    asset = Asset.objects.get(id=id)
+
+    asset.delete()
+
+    return redirect("upload_asset")
+def rate_asset(request, id):
+
+    asset = Asset.objects.get(id=id)
+
+    rating = int(
+        request.POST.get("rating")
+    )
+
+    if 1 <= rating <= 5:
+
+        asset.total_rating += rating
+
+        asset.rating_count += 1
+
+        asset.save()
+
+    return redirect(
+        request.META.get(
+            'HTTP_REFERER',
+            '/'
+        )
+    )
+
+# user rating
+@login_required
+def rate_asset(request, id):
+
+    if not request.user.is_authenticated:
+        return redirect("login")
+
+    asset = Asset.objects.get(id=id)
+
+    rating = int(request.POST.get("rating"))
+
+    if 1 <= rating <= 5:
+
+        AssetRating.objects.update_or_create(
+            asset=asset,
+            user=request.user,
+            defaults={
+                "rating": rating
+            }
+        )
+
+    return redirect(
+        request.META.get(
+            "HTTP_REFERER",
+            "/"
+        )
     )

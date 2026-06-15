@@ -137,7 +137,7 @@ AUTH_PASSWORD_VALIDATORS = [
 
 LANGUAGE_CODE = 'en-us'
 
-TIME_ZONE = 'UTC'
+TIME_ZONE = 'UTC'   
 
 USE_I18N = True
 
@@ -152,6 +152,7 @@ AUTHENTICATION_BACKENDS = (
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/6.0/howto/static-files/
 DEBUG = True
+
 ALLOWED_HOSTS = [
     "motion-array.onrender.com",
     "motion-templates-1.onrender.com",
@@ -187,10 +188,10 @@ EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 EMAIL_HOST = 'smtp.gmail.com'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
-EMAIL_HOST_USER = os.getenv("santoshgondkar22@gmail.com")
-EMAIL_HOST_PASSWORD = os.getenv("hkjwifuhhysdndnq")
-# EMAIL_HOST_USER = "santoshgondkar22@gmail.com"
-# EMAIL_HOST_PASSWORD = "hkjw ifuh hysd ndnq"
+# EMAIL_HOST_USER = os.getenv("santoshgondkar22@gmail.com")
+# EMAIL_HOST_PASSWORD = os.getenv("hkjwifuhhysdndnq")
+EMAIL_HOST_USER = "santoshgondkar22@gmail.com"
+EMAIL_HOST_PASSWORD = "hkjw ifuh hysd ndnq"
 DEFAULT_FROM_EMAIL = EMAIL_HOST_USER
 
 
@@ -255,7 +256,7 @@ SOCIALACCOUNT_PROVIDERS = {
         },
     }
 }
-EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
+# EMAIL_BACKEND = 'django.core.mail.backends.console.EmailBackend'
 # EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
 
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"

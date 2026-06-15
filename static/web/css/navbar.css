@@ -158,14 +158,16 @@
         }
 
         /* Subscribe Button in Nav */
-        .subscribe-nav-btn {
-            background: linear-gradient(135deg, #f7931e, #ff6b35);
-            color: white !important;
-            padding: 10px 24px !important;
-            border-radius: 50px !important;
-            margin-left: 8px;
-            box-shadow: 0 4px 15px rgba(247, 147, 30, 0.3);
-        }
+       .subscribe-btn {
+    display: inline-block;
+    padding: 10px 20px;   /* Decrease button size */
+    font-size: 18px;      /* Smaller text */
+    border-radius: 30px;  /* Smaller curve */
+    background: linear-gradient(90deg, #6a5cff, #ff5ca8);
+    color: white;
+    text-decoration: none;
+    font-weight: 600;
+}
 
         .subscribe-nav-btn:hover {
             transform: translateY(-2px);
@@ -785,4 +787,33 @@
 .dropdown-content a:hover{
     background:rgba(247,147,30,0.15);
     color:#f7931e;
+}
+.navbar-logo{
+    width:60px;
+    height:60px;
+    object-fit:contain;
+    border-radius:50%;
+    margin-right:12px;
+}
+
+.logo-link{
+    display:flex;
+    align-items:center;
+    text-decoration:none;
+}
+
+.logo{
+    display:flex;
+    align-items:center;
+}
+
+.logo-text{
+    font-size:2rem;
+    font-weight:800;
+    color:#ffffff;
+}
+
+.logo-dot{
+    color:#ff9f1c;
+    margin-left:5px;
 }

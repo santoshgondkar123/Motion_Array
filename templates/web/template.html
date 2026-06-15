@@ -416,6 +416,7 @@
     object-fit: cover;
     display: block;
 }
+
     </style>
 </head>
 <body>
@@ -465,8 +466,30 @@
 
     <div class="thumbnail">
            
+        <div class="thumbnail">
+
+    {% if item.image %}
+
         <img src="{{ item.image.url }}"
              alt="{{ item.title }}">
+
+    {% elif item.thumbnail %}
+
+        <img src="{{ item.thumbnail.url }}"
+             alt="{{ item.title }}">
+
+    {% else %}
+
+        <img src="{% static 'web/images/no-image.jpg' %}"
+             alt="No Image">
+
+    {% endif %}
+
+    <div class="thumbnail-badge">
+        {{ item.badge }}
+    </div>
+
+</div>
 
         <div class="thumbnail-badge">
             {{ item.badge }}
@@ -480,20 +503,90 @@
             <span class="price">₹{{ item.price }}</span>
         </div>
 
-        <div class="template-title">
-            {{ item.title }}
-        </div>
+    
+       <div class="meta">
 
-        <div class="meta">
-            <span><i class="fas fa-download"></i> {{ item.downloads }}</span>
-            <span>⭐ {{ item.rating }}</span>
-        </div>
+    <span>
+        <i class="fas fa-download"></i>
+        {{ item.downloads }}
+    </span>
 
-        <p>{{ item.description|truncatewords:12 }}</p>
+    <span>
+        ⭐ {{ item.average_rating|default:"0"|floatformat:1 }}
+        ({{ item.total_reviews|default:"0" }} Reviews)
+    </span>
 
-        <button class="download-btn">
-            Download Template
+</div>
+
+<p>
+    {{ item.description|truncatewords:12 }}
+</p>
+{% if user.is_authenticated %}
+
+    {% if item.user_rating %}
+
+<p style="
+    color:#94a3b8;
+    font-size:14px;
+    margin:10px 0;
+">
+
+    You rated this asset:
+    {{ item.user_rating }}/5 ⭐
+
+</p>
+
+{% endif %}
+
+{% endif %}
+{% if user.is_authenticated %}
+
+<form method="POST"
+      action="{% url 'rate_asset' item.id %}"
+      class="rating-form">
+
+    {% csrf_token %}
+
+    <div class="star-rating">
+
+        {% for star in "12345" %}
+
+        <button type="submit"
+                name="rating"
+                value="{{ star }}"
+                class="star-btn">
+
+            {% if item.user_rating >= star|add:"0" %}
+                ★
+            {% else %}
+                ☆
+            {% endif %}
+
         </button>
+
+        {% endfor %}
+
+    </div>
+
+</form>
+
+{% else %}
+
+
+
+{% endif %}
+
+{% if item.zip_file %}
+
+<a href="{% url 'download_asset' item.id %}"
+   class="download-btn">
+
+    <i class="fas fa-download"></i>
+    Download ZIP
+
+</a>
+
+{% endif %}
 
     </div>
 
