@@ -122,16 +122,11 @@ path(
     ad.delete_asset,
     name='delete_asset'
 ),
-path(
-    'rate-asset/<int:id>/',
-    ad.rate_asset,
-    name='rate_asset'
-),
 
 # user rating
 path(
     'rate-asset/<int:id>/',
-    ad.rate_asset,
+    views.rate_asset,
     name='rate_asset'
 ),
 path(

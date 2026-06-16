@@ -130,6 +130,7 @@ class Asset(models.Model):
 
 
 class AssetRating(models.Model):
+
     asset = models.ForeignKey(
         Asset,
         on_delete=models.CASCADE,
@@ -138,17 +139,36 @@ class AssetRating(models.Model):
 
     user = models.ForeignKey(
         User,
-        on_delete=models.CASCADE
+        on_delete=models.CASCADE,
+        null=True,
+        blank=True
+    )
+
+    guest_ip = models.GenericIPAddressField(
+        null=True,
+        blank=True
     )
 
     rating = models.IntegerField()
 
     class Meta:
-        unique_together = ('asset', 'user')
+        constraints = [
+            models.UniqueConstraint(
+                fields=['asset', 'user'],
+                name='unique_user_rating'
+            ),
+            models.UniqueConstraint(
+                fields=['asset', 'guest_ip'],
+                name='unique_guest_rating'
+            )
+        ]
 
     def __str__(self):
-        return f"{self.user.username} - {self.asset.title}"
 
+        if self.user:
+            return f"{self.user.username} - {self.asset.title}"
+
+        return f"{self.guest_ip} - {self.asset.title}"
 
 class Subscription(models.Model):
 

@@ -568,24 +568,21 @@
 
 .star-rating{
     display:flex;
-    justify-content:center;
-    gap:08px;
-    margin-top:5px;
+    gap:8px;
+    margin-top:12px;
 }
 
 .star-btn{
     background:none;
     border:none;
     color:#fbbf24;
-    font-size:42px;
+    font-size:32px;
     cursor:pointer;
-    transition:0.3s;
 }
 
 .star-btn:hover{
-    transform:scale(1.2);
+    transform:scale(1.1);
 }
-
 .user-rated{
     color:#94a3b8;
     font-size:15px;
@@ -758,26 +755,14 @@ color:white;
             </span>
             
 
-       <span>
-      {% if item.total_reviews %}
-
-⭐ {{ item.average_rating|floatformat:1 }}
-({{ item.total_reviews }} Reviews)
-
-{% else %}
-
-⭐ New Asset
-
-{% endif %}
-    </span>
+   
         </div>
 {% if user.is_authenticated %}
 
-{% if item.user_rating %}
+   {% if item.user_rating %}
 
 <p class="user-rated">
-    You rated this asset:
-    {{ item.user_rating }}/5 ⭐
+    Your Rating: {{ item.user_rating }}/5 ⭐
 </p>
 
 {% endif %}
@@ -809,11 +794,9 @@ color:white;
     </div>
 
 </form>
-
 {% else %}
 
-
-
+  
 {% endif %}
 
 {% if item.zip_file %}
@@ -823,7 +806,7 @@ color:white;
     <i class="fas fa-download"></i>
     Download ZIP
 
-</a>
+</a> 
 {% endif %}
 
     </div>
@@ -1356,6 +1339,15 @@ function initSubscription() {
     renderTemplates();
     bindFilters();
     initSubscription();
+    document.querySelectorAll('.star-btn').forEach(btn => {
+
+    btn.addEventListener('click', function(e){
+
+        e.stopPropagation();
+
+    });
+
+});
 </script>
 </body>
 </html>

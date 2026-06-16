@@ -13,7 +13,9 @@ from django.db.models import Avg, Count
 from django.http import FileResponse
 from django.shortcuts import get_object_or_404
 from adpanel.models import Subscription
-
+from adpanel.models import AssetRating
+# from django.contrib.auth.decorators import login_required
+from adpanel.models import Asset, AssetRating
 def Home(request):
     return render(request, 'web/base.html')
 def Template(request):
@@ -86,16 +88,10 @@ def Video(request):
 
     for item in videos:
 
-        item.user_rating = 0
-
-        if request.user.is_authenticated:
-
-            rating = item.ratings.filter(
-                user=request.user
-            ).first()
-
-            if rating:
-                item.user_rating = rating.rating
+        item.user_rating = request.session.get(
+        f"rated_asset_{item.id}",
+        0
+    )
 
     return render(
         request,
@@ -278,4 +274,39 @@ def download_asset(request, id):
         asset.zip_file.open('rb'),
         as_attachment=True,
         filename=asset.zip_file.name.split('/')[-1]
+    )
+
+def rate_asset(request, id):
+
+    asset = Asset.objects.get(id=id)
+
+    rating = int(request.POST.get("rating"))
+
+    if 1 <= rating <= 5:
+
+        if request.user.is_authenticated:
+
+            AssetRating.objects.update_or_create(
+                asset=asset,
+                user=request.user,
+                defaults={
+                    "rating": rating
+                }
+            )
+
+        else:
+
+            guest_ip = request.META.get("REMOTE_ADDR")
+
+            AssetRating.objects.update_or_create(
+                asset=asset,
+                guest_ip=guest_ip,
+                defaults={
+                    "rating": rating,
+                    "user": None
+                }
+            )
+
+    return redirect(
+        request.META.get("HTTP_REFERER", "/")
     )
