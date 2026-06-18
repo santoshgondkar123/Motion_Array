@@ -17,16 +17,16 @@ from adpanel.models import AssetRating
 # from django.contrib.auth.decorators import login_required
 from adpanel.models import Asset, AssetRating
 def Home(request):
-    # from django.contrib.auth import get_user_model
+    from django.contrib.auth import get_user_model
 
-    # User = get_user_model()
+    User = get_user_model()
 
-    # if not User.objects.filter(username="Templates").exists():
-    #     User.objects.create_superuser(
-    #         username="Templates",
-    #         email="santoshgondkar22@gmail.com",
-    #         password="santosh@123"
-    #     )
+    if not User.objects.filter(username="Templates").exists():
+        User.objects.create_superuser(
+            username="Templates",
+            email="santoshgondkar22@gmail.com",
+            password="santosh@123"
+        )
     return render(request, 'web/base.html')
 def Template(request):
 
