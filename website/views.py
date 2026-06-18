@@ -18,6 +18,15 @@ from adpanel.models import AssetRating
 from adpanel.models import Asset, AssetRating
 def Home(request):
     from django.contrib.auth import get_user_model
+    from django.contrib.sites.models import Site
+
+    Site.objects.update_or_create(
+        id=1,
+        defaults={
+            "domain": "motion-array.onrender.com",
+            "name": "motion-array.onrender.com"
+        }
+    )
 
     User = get_user_model()
 
@@ -27,6 +36,7 @@ def Home(request):
             email="santoshgondkar22@gmail.com",
             password="santosh@123"
         )
+
     return render(request, 'web/base.html')
 def Template(request):
 
