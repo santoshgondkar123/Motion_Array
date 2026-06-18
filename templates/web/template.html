@@ -241,18 +241,21 @@
         .rating i {
             color: #fbbf24;
         }
-        .download-btn {
-            width: 100%;
-            background: linear-gradient(135deg, #f7931e, #ff6b35);
-            color: white;
-            border: none;
-            padding: 10px;
-            border-radius: 40px;
-            font-weight: 600;
-            cursor: pointer;
-            transition: 0.2s;
-            margin-top: 12px;
-        }
+       .download-btn {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+    margin: 12px auto 0;
+    background: linear-gradient(135deg, #f7931e, #ff6b35);
+    color: white;
+    border: none;
+    padding: 10px 25px;
+    border-radius: 40px;
+    font-weight: 600;
+    cursor: pointer;
+    transition: 0.2s;
+}
         .download-btn:hover {
             transform: translateY(-2px);
             box-shadow: 0 5px 15px rgba(247,147,30,0.4);
@@ -416,6 +419,40 @@
     object-fit: cover;
     display: block;
 }
+.download-buttons{
+    display:flex;
+    flex-direction:column;
+    gap:10px;
+    margin-top:15px;
+}
+
+.template-btn,
+.zip-btn{
+    display:flex;
+    justify-content:center;
+    align-items:center;
+    text-decoration:none;
+    padding:10px 20px;
+    border-radius:40px;
+    font-weight:600;
+    transition:0.3s;
+}
+
+.template-btn{
+    background:linear-gradient(135deg,#6c63ff,#4f46e5);
+    color:white;
+}
+
+.zip-btn{
+    background:linear-gradient(135deg,#f7931e,#ff6b35);
+    color:white;
+}
+
+.template-btn:hover,
+.zip-btn:hover{
+    transform:translateY(-2px);
+    box-shadow:0 5px 15px rgba(0,0,0,0.25);
+}
 
     </style>
 </head>
@@ -578,13 +615,23 @@
 
 {% if item.zip_file %}
 
-<a href="{% url 'download_asset' item.id %}"
-   class="download-btn">
+<div class="download-buttons">
 
-    <i class="fas fa-download"></i>
-    Download ZIP
+    <a href="/login/"
+       class="template-btn">
+        <i class="fas fa-crown"></i>
+        Download Template
+    </a>
 
-</a>
+    {% if item.zip_file %}
+    <a href="{% url 'download_asset' item.id %}"
+       class="zip-btn">
+        <i class="fas fa-download"></i>
+        Download ZIP
+    </a>
+    {% endif %}
+
+</div>
 
 {% endif %}
 
